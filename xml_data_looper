@@ -6,7 +6,7 @@
 
 ##get directory
 getwd() #check file path for working dierctory
-setwd("/Users/ntoscano/Desktop/Working Code/")
+setwd("FILEPATH")
 
 ##import data
 data <- read.table(file = "xml_sample_100.txt", header = FALSE, quote="'\"")
