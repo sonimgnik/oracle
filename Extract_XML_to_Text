@@ -14,9 +14,8 @@ ore.ls()
 
 rm(list = ls())  
 
-xml_sample <- ore.pull(head(NYT_SAMPLE4,100))
+xml_sample <- ore.pull(head(SAMPLE,100))
 xml_sample = subset(xml_sample, select = -c(FILE_NAME) )
-xml_sample_1_chr <- as.character(xml_sample$TITLE)
 
 #write to xml file
 write.table(xml_sample, "xml_sample_100.txt", sep = "\t", row.names = FALSE, col.names=FALSE)
