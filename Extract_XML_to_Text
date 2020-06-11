@@ -1,29 +1,24 @@
-#########################################################################
-## 
 ## Extract XML to Text
-##
-#########################################################################
-
-# requires XML package to be installed
 
 library(ORE)
 
 options(ore.warn.order=FALSE)
 
 # Create an ORE Connection
-ore.connect(user        = "rquser",
-            conn_string = "ORCLPDB",
-            password    = "rquser",
+ore.connect(user        = "",
+            conn_string = "",
+            password    = "",
             all         = TRUE)  
 ore.attach()
 ore.ls()
 
 rm(list = ls())  
 
-# Extract Data - let's start with 1 record
 xml_sample <- ore.pull(head(NYT_SAMPLE4,100))
 xml_sample = subset(xml_sample, select = -c(FILE_NAME) )
 xml_sample_1_chr <- as.character(xml_sample$TITLE)
 
 #write to xml file
 write.table(xml_sample, "xml_sample_100.txt", sep = "\t", row.names = FALSE, col.names=FALSE)
+
+ore.disconnect()
