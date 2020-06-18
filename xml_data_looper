@@ -56,5 +56,13 @@ parse_xml <-function(FileName) {
 }
 
 data.parsed <- ldply(fileList,parse_xml)
+write.csv(data.parsed,'dataParsed.csv', row.names = FALSE)
 
-write.csv(data.parsed,"/Users/ntoscano/Desktop/Working Code/xmldata.csv", row.names = FALSE)
+dir_to_clean <- dumpPath
+
+## remove files
+file.remove(dir(  
+  dir_to_clean, 
+  pattern = "*.xml", 
+  full.names = TRUE
+))
