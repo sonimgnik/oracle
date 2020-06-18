@@ -6,10 +6,12 @@
 
 ##get directory
 getwd() #check file path for working dierctory
-setwd("FILEPATH")
+dirPath <- setwd("FILEPATH")
+dumpPath <- paste0(dirPath,"/subFolder")
+dumpPath
 
 ##import data
-data <- read.table(file = "xml_sample_100.txt", header = FALSE, quote="'\"")
+data <- read.table(file = "sampleData.txt", header = FALSE, quote="'\"")
 
 ## output n individual data sets, containing a single column
 ## - Note: insert correct file path for doc dump and file extension
@@ -26,7 +28,7 @@ for (i in 1:nrow(data)) {
 ## - Note: insert correct file path for import
 
 library(xml2)
-xml_file <- read_xml("/Users/ntoscano/Desktop/Working Code/textfiles/1.xml")
+xml_file <- read_xml(paste0(dumpPath,"/fileName.xml"))
 
 ## check class: should be: "xml_document" "xml_node"
 class(xml_file)
@@ -41,15 +43,18 @@ xml_find_all(xml_file,".//head")
 ## Parse xml and create to dataframe
 library(XML)
 library(plyr)
-setwd("/Users/ntoscano/Desktop/Working Code/textfiles/")
-files <- list.files() 
+setwd(dumpPath)
+fileList <- list.files(pattern="*.xml")
+
+FileName <- fileList
 parse_xml <-function(FileName) {
   doc1 <- xmlParse(FileName) 
   title <- xmlToDataFrame(nodes=getNodeSet(doc1,'/nitf/head/title'))
   hedline <- xmlToDataFrame(nodes=getNodeSet(doc1,'/nitf/body'))
-  df<-cbind(title,hedline)
+  df<-merge(title,hedline, by = "row.names", all = TRUE)
+  df <- df[,-1]
 }
 
-data.parsed <- ldply(files,parse_xml)
+data.parsed <- ldply(fileList,parse_xml)
 
 write.csv(data.parsed,"/Users/ntoscano/Desktop/Working Code/xmldata.csv", row.names = FALSE)
